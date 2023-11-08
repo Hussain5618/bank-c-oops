@@ -15,4 +15,5 @@ bank.DisplayDetails();
 Console.WriteLine("Withdrawing funds from customer 2");
 bank.WithdrawFunds(acc2.AccountId, 50.00);
 bank.DisplayDetails();
+bank.DisplayTrasactions();
 

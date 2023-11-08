@@ -37,7 +37,7 @@ public class Bank
         {
             sender.BalanceOperation(amount, "withdraw");
             receiver.BalanceOperation(amount, "deposit");
-            var newTransaction = new Transaction(new Guid(), sender, receiver, amount);
+            var newTransaction = new Transaction(sender, receiver, amount, "transfer");
             transactions.Add(newTransaction);
             return true;
         }
@@ -57,6 +57,8 @@ public class Bank
         Account? account = accounts.Find(account => account.AccountId == customerId);
         if (account != null)
         {
+            Transaction transaction = new Transaction(account, amount, "deposit");
+            transactions.Add(transaction);
             account.BalanceOperation(amount, "deposit");
         }
     }
@@ -65,9 +67,18 @@ public class Bank
     {
         Account? account = accounts.Find(account => account.AccountId == customerId);
         if (account != null)
+
         {
+            Transaction transaction = new Transaction(account, amount, "withdraw");
+            transactions.Add(transaction);
             account.BalanceOperation(amount, "withdraw");
         }
     }
-
+    public void DisplayTrasactions()
+    {
+        foreach (Transaction transaction in transactions)
+        {
+            Console.WriteLine($"Transaction ID: {transaction.TransactionId}  {transaction?.SenderAccount?.AccountHolder.Name}  {transaction?.OperationType}  {transaction?.ReceiverAccount?.AccountHolder.Name}  {transaction?.Amount}  {transaction?.Date}");
+        }
+    }
 }
